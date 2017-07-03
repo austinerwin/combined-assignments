@@ -24,7 +24,9 @@ public class Fibonacci {
      * @throws IllegalArgumentException if the given index is less than zero
      */
     public static int atIndex(int i) throws IllegalArgumentException {
-        throw new NotImplementedException();
+        if (i < 0) throw new IllegalArgumentException();
+        if (i <= 1) return 1;
+        else return atIndex(i-1) + atIndex(i-2);
     }
 
     /**

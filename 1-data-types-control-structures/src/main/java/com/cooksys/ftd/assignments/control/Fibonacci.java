@@ -1,4 +1,5 @@
 package com.cooksys.ftd.assignments.control;
+import java.util.ArrayList;
 
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
@@ -24,9 +25,14 @@ public class Fibonacci {
      * @throws IllegalArgumentException if the given index is less than zero
      */
     public static int atIndex(int i) throws IllegalArgumentException {
-        if (i < 0) throw new IllegalArgumentException();
-        if (i <= 1) return 1;
-        else return atIndex(i-1) + atIndex(i-2);
+    	if(i < 0) throw new IllegalArgumentException();
+        int x = 1, y = 1, z = 2;
+        for (int j = 0; j < i; j++) {
+        	x = y;
+        	y = z;
+        	z = x + y;
+        }
+        return x;
     }
 
     /**
@@ -40,7 +46,30 @@ public class Fibonacci {
      *                                  given end is less than the given start
      */
     public static int[] slice(int start, int end) throws IllegalArgumentException {
-        throw new NotImplementedException();
+        if(start < 0 || end < 0 || end < start) throw new IllegalArgumentException();
+        ArrayList<Integer> arrList = new ArrayList<Integer>();
+        int x = 1, y = 1, z = 2;
+        for (int i = 0; i < end; i++) {
+        	if(i >= start) arrList.add(x);
+        	x = y;
+        	y = z;
+        	z = x + y;
+        }
+        return convertIntegers(arrList);
+    }
+    
+    /**
+     * Converts ArrayList<Integer> to int[]
+     * Copied from StackOverflow
+     */
+    public static int[] convertIntegers(ArrayList<Integer> integers)
+    {
+        int[] ret = new int[integers.size()];
+        for (int i=0; i < ret.length; i++)
+        {
+            ret[i] = integers.get(i).intValue();
+        }
+        return ret;
     }
 
     /**
@@ -51,6 +80,7 @@ public class Fibonacci {
      * @throws IllegalArgumentException if the given count is negative
      */
     public static int[] fibonacci(int count) throws IllegalArgumentException {
-        throw new NotImplementedException();
+    	if(count < 0) throw new IllegalArgumentException();
+    	return slice(0, count);
     }
 }

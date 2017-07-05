@@ -65,7 +65,8 @@ public class Rational implements IRational {
     public boolean equals(Object obj) {
     	if (obj instanceof Rational == false) return false;
     	Rational that = (Rational) obj;
-        if (this.numerator == that.getNumerator()) return true;
+        if (this.numerator == that.getNumerator() && 
+        	this.denominator == that.getDenominator()) return true;
         return false;
     }
 

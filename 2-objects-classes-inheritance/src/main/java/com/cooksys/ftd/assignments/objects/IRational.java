@@ -36,7 +36,7 @@ interface IRational {
      * @return the negation of this
      */
     default IRational negate() {
-        throw new NotImplementedException();
+    	return construct(getNumerator() * -1, getDenominator());
     }
 
     /**
@@ -49,7 +49,10 @@ interface IRational {
      * @throws IllegalStateException if the numerator of this rational value is 0
      */
     default IRational invert() throws IllegalStateException {
-        throw new NotImplementedException();
+    	int n = getNumerator();
+    	int d = getDenominator();
+        if (n == 0) throw new IllegalStateException();
+        return construct(d, n);
     }
 
     /**
@@ -63,7 +66,14 @@ interface IRational {
      * @throws IllegalArgumentException if that is null
      */
     default IRational add(IRational that) throws IllegalArgumentException {
-        throw new NotImplementedException();
+        if (that == null) throw new IllegalArgumentException();
+        int n1 = getNumerator();
+    	int d1 = getDenominator();
+    	int n2 = that.getNumerator();
+    	int d2 = that.getDenominator();
+    	int n_result = (n1 * d2) + (n2 * d1);
+    	int d_result = d1 * d2;
+        return construct(n_result, d_result);
     }
 
     /**
@@ -77,7 +87,14 @@ interface IRational {
      * @throws IllegalArgumentException if that is null
      */
     default IRational sub(IRational that) throws IllegalArgumentException {
-        throw new NotImplementedException();
+    	if (that == null) throw new IllegalArgumentException();
+        int n1 = getNumerator();
+    	int d1 = getDenominator();
+    	int n2 = that.getNumerator();
+    	int d2 = that.getDenominator();
+    	int n_result = (n1 * d2) - (n2 * d1);
+    	int d_result = d1 * d2;
+        return construct(n_result, d_result);
     }
 
     /**
@@ -91,7 +108,14 @@ interface IRational {
      * @throws IllegalArgumentException if that is null
      */
     default IRational mul(IRational that) throws IllegalArgumentException {
-        throw new NotImplementedException();
+    	if (that == null) throw new IllegalArgumentException();
+        int n1 = getNumerator();
+    	int d1 = getDenominator();
+    	int n2 = that.getNumerator();
+    	int d2 = that.getDenominator();
+    	int n_result = n1 * n2;
+    	int d_result = d1 * d2;
+        return construct(n_result, d_result);
     }
 
     /**
@@ -105,6 +129,13 @@ interface IRational {
      * @throws IllegalArgumentException if that is null or if the numerator of that is 0
      */
     default IRational div(IRational that) throws IllegalArgumentException {
-        throw new NotImplementedException();
+    	if (that == null) throw new IllegalArgumentException();
+        int n1 = getNumerator();
+    	int d1 = getDenominator();
+    	int n2 = that.getNumerator();
+    	int d2 = that.getDenominator();
+    	int n_result = n1 * d2;
+    	int d_result = d1 * n2;
+        return construct(n_result, d_result);
     }
 }

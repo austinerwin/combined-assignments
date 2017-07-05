@@ -63,8 +63,8 @@ public class Rational implements IRational {
      */
     @Override
     public boolean equals(Object obj) {
-    	if (obj instanceof Rational == false) return false;
-    	Rational that = (Rational) obj;
+    	if (obj instanceof IRational == false) return false;
+    	IRational that = (IRational) obj;
         if (this.numerator == that.getNumerator() && 
         	this.denominator == that.getDenominator()) return true;
         return false;
@@ -82,7 +82,7 @@ public class Rational implements IRational {
         int n = this.numerator;
         int d = this.denominator;
         boolean positive = true;
-        if (n / d < 0) positive = false;
+        if ((n < 0) != (d < 0)) positive = false;
         String output = "";
         if (!positive) output += "-";
         output = output + Math.abs(n) + "/" + Math.abs(d);

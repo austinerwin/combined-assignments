@@ -54,6 +54,7 @@ public class FibonacciTests {
     @Test
     public void atIndexTest() {
         for (int i = 0; i < fib.length; i++) {
+        	if (fib[i] == atIndex(i)) System.out.println(i);
             assertEquals(fib[i], atIndex(i));
         }
     }

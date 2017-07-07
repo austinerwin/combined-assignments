@@ -8,8 +8,9 @@ import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 import java.util.*;
 
 public class MegaCorp implements Hierarchy<Capitalist, FatCat> {
-
-    /**
+	// HashMap<FatCat, Set<Capitalist>> hierarchy = new HashMap<FatCat, Set<Capitalist>>();
+	Set<Capitalist> heirarchy = new HashSet<Capitalist>();
+	/**
      * Adds a given element to the hierarchy.
      * <p>
      * If the given element is already present in the hierarchy,
@@ -29,7 +30,13 @@ public class MegaCorp implements Hierarchy<Capitalist, FatCat> {
      */
     @Override
     public boolean add(Capitalist capitalist) {
-        throw new NotImplementedException();
+    	if (!heirarchy.add(capitalist) || !(capitalist.hasParent() || isParent(capitalist))) return false;
+    	if (capitalist.hasParent()) heirarchy.add(capitalist.getParent());
+    	return true;
+    }
+    
+    private boolean isParent(Capitalist capitalist) {
+    	return capitalist instanceof FatCat;
     }
 
     /**

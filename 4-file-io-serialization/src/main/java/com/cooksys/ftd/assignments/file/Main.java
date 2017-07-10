@@ -10,6 +10,7 @@ import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Main {
@@ -27,7 +28,8 @@ public class Main {
     	Student student = new Student();
     	try {
 			Unmarshaller unmarshaller = jaxb.createUnmarshaller();
-			student = (Student) unmarshaller.unmarshal(studentContactFile);
+			Contact c = (Contact) unmarshaller.unmarshal(studentContactFile);
+			student.setContact(c);
 		} catch (JAXBException e) {
 			e.printStackTrace();
 		} return student;
@@ -41,7 +43,11 @@ public class Main {
      * @return a list of {@link Student} objects built using the contact files in the given directory
      */
     public static List<Student> readStudents(File studentDirectory, JAXBContext jaxb) {
-        return null; // TODO
+        List<Student> students = new ArrayList<Student>();
+        for (File file : studentDirectory.listFiles()) {
+        	students.add(readStudent(file, jaxb));
+        }
+        return students;
     }
 
     /**
@@ -54,7 +60,14 @@ public class Main {
      * @return an {@link Instructor} object built using the {@link Contact} data in the given file
      */
     public static Instructor readInstructor(File instructorContactFile, JAXBContext jaxb) {
-        return null; // TODO
+    	Instructor instructor = new Instructor();
+    	try {
+			Unmarshaller unmarshaller = jaxb.createUnmarshaller();
+			Contact c = (Contact) unmarshaller.unmarshal(instructorContactFile);
+			instructor.setContact(c);
+		} catch (JAXBException e) {
+			e.printStackTrace();
+		} return instructor;
     }
 
     /**
@@ -69,7 +82,11 @@ public class Main {
      * @return a {@link Session} object built from the data in the given directory
      */
     public static Session readSession(File rootDirectory, JAXBContext jaxb) {
-        return null; // TODO
+        Session session = new Session();
+        String location = rootDirectory.getName();
+        File dateDirectory = rootDirectory.listFiles()[0];
+        
+        return session;
     }
 
     /**

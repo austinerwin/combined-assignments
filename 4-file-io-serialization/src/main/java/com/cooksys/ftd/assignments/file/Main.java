@@ -6,6 +6,9 @@ import com.cooksys.ftd.assignments.file.model.Session;
 import com.cooksys.ftd.assignments.file.model.Student;
 
 import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Unmarshaller;
+
 import java.io.File;
 import java.util.List;
 
@@ -21,7 +24,13 @@ public class Main {
      * @return a {@link Student} object built using the {@link Contact} data in the given file
      */
     public static Student readStudent(File studentContactFile, JAXBContext jaxb) {
-        return null; // TODO
+    	Student student = new Student();
+    	try {
+			Unmarshaller unmarshaller = jaxb.createUnmarshaller();
+			student = (Student) unmarshaller.unmarshal(studentContactFile);
+		} catch (JAXBException e) {
+			e.printStackTrace();
+		} return student;
     }
 
     /**

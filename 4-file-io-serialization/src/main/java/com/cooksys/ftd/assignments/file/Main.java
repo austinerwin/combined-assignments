@@ -5,8 +5,11 @@ import com.cooksys.ftd.assignments.file.model.Instructor;
 import com.cooksys.ftd.assignments.file.model.Session;
 import com.cooksys.ftd.assignments.file.model.Student;
 
+import javax.swing.filechooser.FileFilter;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
+import javax.xml.bind.Marshaller;
+import javax.xml.bind.PropertyException;
 import javax.xml.bind.Unmarshaller;
 
 import java.io.File;
@@ -84,8 +87,15 @@ public class Main {
     public static Session readSession(File rootDirectory, JAXBContext jaxb) {
         Session session = new Session();
         String location = rootDirectory.getName();
-        File dateDirectory = rootDirectory.listFiles()[0];
-        
+        String date = rootDirectory.list()[0];
+        File instructorContactFile = new File("instructor.xml");
+        Instructor instructor = readInstructor(instructorContactFile, jaxb);
+        File studentDirectory = new File("students");
+        List<Student> students = readStudents(studentDirectory, jaxb);
+        session.setLocation(location);
+        session.setStartDate(date);
+        session.setInstructor(instructor);
+        session.setStudents(students);
         return session;
     }
 
@@ -97,7 +107,14 @@ public class Main {
      * @param jaxb the JAXB context to use
      */
     public static void writeSession(Session session, File sessionFile, JAXBContext jaxb) {
-        // TODO
+    	try {
+    		Marshaller m = jaxb.createMarshaller();
+			m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+			m.marshal(session, sessionFile);
+		} catch (JAXBException e) {
+			e.printStackTrace();
+		}
+
     }
 
     /**
@@ -127,6 +144,13 @@ public class Main {
      *      </session>
      */
     public static void main(String[] args) {
-        // TODO
+    	File root = new File("../../../../../../../../input/memphis");
+    	JAXBContext jaxb;
+		try {
+			jaxb = JAXBContext.newInstance(Contact.class);
+		} catch (JAXBException e) {
+			e.printStackTrace();
+		}
+        Session session = readSession(root, jaxb);
     }
 }

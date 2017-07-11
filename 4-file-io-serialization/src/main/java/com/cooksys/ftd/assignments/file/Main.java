@@ -86,14 +86,13 @@ public class Main {
         Session session = new Session();
         String location = rootDirectory.getName();
         
-        System.out.println(location);
-        System.out.println(rootDirectory.list());
-        System.out.println(rootDirectory.listFiles(File::isDirectory));
-        String date = rootDirectory.list()[0];
-        File instructorContactFile = new File("instructor.xml");
-        Instructor instructor = readInstructor(instructorContactFile, jaxb);
-        File studentDirectory = new File("students");
+        File dir = rootDirectory.listFiles(File::isDirectory)[0]; // navigate to date folder
+        File instructorFile = new File(dir, "instructor.xml");
+        File studentDirectory = new File(dir, "students");
+        String date = dir.getName();
+        
         List<Student> students = readStudents(studentDirectory, jaxb);
+        Instructor instructor = readInstructor(instructorFile, jaxb);
         session.setLocation(location);
         session.setStartDate(date);
         session.setInstructor(instructor);
@@ -146,11 +145,12 @@ public class Main {
      *      </session>
      */
     public static void main(String[] args) {
-    	File root = new File("/input/memphis");
+    	File root = new File("./input/memphis");
     	Session session = null;
 		try {
 			session = readSession(root, JAXBContext.newInstance(Contact.class));
-			writeSession(session, new File("/output/session.xml"), JAXBContext.newInstance(Session.class));
+			writeSession(session, new File("./output/session.xml"), JAXBContext.newInstance(Session.class));
+			System.out.println("Written to session.xml");
 		} catch (JAXBException e) {
 			e.printStackTrace();
 		}

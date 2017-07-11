@@ -3,6 +3,7 @@ package com.cooksys.ftd.assignments.file.model;
 import java.util.List;
 
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 
 @XmlRootElement
@@ -12,7 +13,7 @@ public class Session {
     private Instructor instructor;
     private List<Student> students;
     
-    @XmlElement
+    @XmlAttribute
     public String getLocation() {
         return location;
     }
@@ -21,7 +22,7 @@ public class Session {
         this.location = location;
     }
 
-    @XmlElement
+    @XmlAttribute
     public String getStartDate() {
         return startDate;
     }

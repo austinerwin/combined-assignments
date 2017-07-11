@@ -5,11 +5,9 @@ import com.cooksys.ftd.assignments.file.model.Instructor;
 import com.cooksys.ftd.assignments.file.model.Session;
 import com.cooksys.ftd.assignments.file.model.Student;
 
-import javax.swing.filechooser.FileFilter;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
-import javax.xml.bind.PropertyException;
 import javax.xml.bind.Unmarshaller;
 
 import java.io.File;
@@ -87,6 +85,10 @@ public class Main {
     public static Session readSession(File rootDirectory, JAXBContext jaxb) {
         Session session = new Session();
         String location = rootDirectory.getName();
+        
+        System.out.println(location);
+        System.out.println(rootDirectory.list());
+        System.out.println(rootDirectory.listFiles(File::isDirectory));
         String date = rootDirectory.list()[0];
         File instructorContactFile = new File("instructor.xml");
         Instructor instructor = readInstructor(instructorContactFile, jaxb);
@@ -144,13 +146,13 @@ public class Main {
      *      </session>
      */
     public static void main(String[] args) {
-    	File root = new File("../../../../../../../../input/memphis");
-    	JAXBContext jaxb;
+    	File root = new File("/input/memphis");
+    	Session session = null;
 		try {
-			jaxb = JAXBContext.newInstance(Contact.class);
+			session = readSession(root, JAXBContext.newInstance(Contact.class));
+			writeSession(session, new File("/output/session.xml"), JAXBContext.newInstance(Session.class));
 		} catch (JAXBException e) {
 			e.printStackTrace();
 		}
-        Session session = readSession(root, jaxb);
     }
 }
